@@ -15,7 +15,7 @@ export default function ProductsPage() {
                 <div className="w-1/2">
                     <div className="productsTitle text-black tracking-widest mx-10">
                         <h1 className="text-4xl"> Every coffee bean has a bit of story. </h1>
-                        <p className="text-base"> We'd love to share a bit of them to you </p>
+                        <p className="text-base"> We&apos;d love to share a bit of them to you </p>
                     </div>
                 </div>
 

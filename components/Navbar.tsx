@@ -1,15 +1,63 @@
 "use client"
-import {useState} from "react";
+import {useState, useEffect, FormEvent} from "react";
 import "./Navbar.css";
 import Link from 'next/link';
+import PopupImage from '@/public/popup-img.jpg';
+import Image from "next/image";
+import { CiShoppingCart } from "react-icons/ci";
 
 export default function Navbar() {
 
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const getUsername = (): string => {
+        return localStorage.getItem("username") || "LOG IN";
+    }
+
     const [showPopup, setShowPopup] = useState<boolean>(false);
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [username, setUsername] = useState<string>("");
+
+    const handleOpenPopup = (): void => {
+        setShowPopup(true);
+    }
 
     const handleClosePopup = (): void => {
         setShowPopup(false);
     }
+
+    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.target.value);
+    };
+
+    const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUsername(e.target.value);
+    }
+    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.target.value);
+    }
+
+    const handleSubmit = (e: FormEvent) => {
+        e.preventDefault();
+
+        localStorage.setItem("email", email);
+        localStorage.setItem("password", password);
+        localStorage.setItem("username", username);
+
+        // Save both data in a same object
+        localStorage.setItem('userData', JSON.stringify([email, password]) );
+
+        setIsLoggedIn(true);
+        handleClosePopup();
+    }
+
+    // Verifies if there's an already logged user
+    useEffect(() => {
+        const storedUsername = localStorage.getItem("username");
+        if (storedUsername) {
+            setIsLoggedIn(true);
+        }
+    }, []);
 
     return (
         <>
@@ -39,7 +87,7 @@ export default function Navbar() {
                            className="block lg:inline-block mr-4 hover-effect">
                             OUR PRODUCTS
                         </Link>
-                        <a href="#responsive-header"
+                        <a
                            className="block lg:inline-block hover-effect">
                             OUR STORES
                         </a>
@@ -52,9 +100,80 @@ export default function Navbar() {
                         <span className="text-sm"> SUPPORT </span>
                     </button>
                      **/}
-                    <span className="text-sm text-black mx-8"> LOG IN </span>
+                    <span
+                        className="text-sm text-black mx-8"
+                        onClick={isLoggedIn ? undefined : handleOpenPopup}>
+                        {isLoggedIn ? (
+                            <>
+                            <span> {getUsername()}</span>
+                                <Link href="/Cart">
+                                    <CiShoppingCart className="ml-2 text-xl cursor-pointer" />
+                                </Link>
+                            </>
+                        ) : (
+                            <span onClick={handleOpenPopup}>LOG IN</span>
+                        )}
+                    </span>
                 </div>
             </nav>
+
+            {showPopup && (
+                <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+                    <div className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800">
+                        <Image
+                            className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
+                            src={PopupImage}
+                            alt="Coffee"
+                        />
+                        <div className="flex flex-col justify-between p-4 leading-normal">
+                            <button className="self-end text-xl" onClick={handleClosePopup}> x </button>
+                            <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                Register to order some tasty coffee
+                            </h2>
+                            <form onSubmit={handleSubmit}>
+                                <label className="block mb-2">
+                                    Email
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        required
+                                        onChange={handleEmailChange}
+                                        className="text-black w-full px-2 py-1 border rounded"
+                                    />
+                                </label>
+
+                                <label className="block mb-2">
+                                    Username
+                                    <input
+                                        type="name"
+                                        value={username}
+                                        required
+                                        onChange={handleUsernameChange}
+                                        className="text-black w-full px-2 py-1 border rounded"
+                                    />
+                                </label>
+
+                                <label className="block mb-2">
+                                    Password
+                                    <input
+                                        type="password"
+                                        value={password}
+                                        required
+                                        onChange={handlePasswordChange}
+                                        className="text-black w-full px-2 py-1 border rounded"
+                                    />
+                                </label>
+                                <button
+                                    type="submit"
+                                    className="w-full mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                                >
+                                    Submit
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 };
