@@ -1,0 +1,26 @@
+.home-container {
+    background-color: #FEF3E2;
+}
+
+.slogan {
+    font-family: "Roboto Flex", sans-serif;
+}
+
+.products-container {
+    font-family: "Roboto Flex", sans-serif;
+    color: #F7DCB9;
+}
+
+.image-container {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.image-container.fade-in {
+    opacity: 1;
+}
+
+.products-container {
+    background-color: #E2DAD6;
+    color: black;
+}

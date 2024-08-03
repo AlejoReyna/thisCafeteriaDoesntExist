@@ -1,0 +1,22 @@
+.navbar-brand {
+    font-family: "Roboto Flex", sans-serif;
+    font-weight: 400;
+    font-size: 1.2rem;
+}
+
+.navbar-container {
+    background-color: #FEF3E2;
+}
+
+.nav-elements {
+    font-family: "Roboto Flex", sans-serif;
+    font-weight: 200;
+}
+
+.hover-effect {
+    transition: transform 0.3s ease-in-out;
+}
+
+.hover-effect:hover {
+    transform: translateY(-5px);
+}
