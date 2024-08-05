@@ -1,6 +1,7 @@
 "use client"
 
 import { useCart } from './CartContext';
+import Link from 'next/link';
 
 export default function CartComponent() {
     const { cart, addToCart, removeFromCart } = useCart();
@@ -45,6 +46,12 @@ export default function CartComponent() {
                         <p className="font-bold text-xl">
                             Total: ${cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}
                         </p>
+
+                        <Link href={"/Payment"}>
+                            <button type={"button"}>
+                                Pay
+                            </button>
+                        </Link>
                     </div>
                 </>
             )}
