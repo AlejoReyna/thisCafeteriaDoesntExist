@@ -1,8 +1,22 @@
 "use client"
 import './Payment.css';
 import React, { useState, ChangeEvent } from "react";
+import Image from "next/image";
+import PopupImage from "@/public/popup-img.jpg";
 
 export default function PaymentComponent() {
+
+    const [showPopup, setShowPopup] = useState<boolean>(false);
+
+    const handleOpenPopup = (): void => {
+        setShowPopup(true);
+    }
+
+    const handleClosePopup = (): void => {
+        setShowPopup(false);
+    }
+
+
     const [cardNumber, setCardNumber] = useState<string>('');
     const [cardType, setCardType] = useState<string>('');
     const [cardHolder, setCardHolder] = useState<string>('');
@@ -125,10 +139,64 @@ export default function PaymentComponent() {
                 <p className="mt-3 font-normal text-gray-700 dark:text-gray-400">
                     Card: {cardType}
                 </p>
-                <button type="submit">
+                <button type="submit" onClick={"handleOpenPopup"}>
                     Pay
                 </button>
             </div>
         </div>
-    );
+
+    {showPopup && (
+            <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+                <div
+                    className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800">
+
+                    <div className="flex flex-col justify-between p-4 leading-normal">
+                        <button className="self-end text-xl" onClick={handleClosePopup}> x</button>
+                        <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                            Register to order some tasty coffee
+                        </h2>
+                        <form onSubmit={handleSubmit}>
+                            <label className="block mb-2">
+                                Email
+                                <input
+                                    type="email"
+                                    value={email}
+                                    required
+                                    onChange={handleEmailChange}
+                                    className="text-black w-full px-2 py-1 border rounded"
+                                />
+                            </label>
+
+                            <label className="block mb-2">
+                                Username
+                                <input
+                                    type="name"
+                                    value={username}
+                                    required
+                                    onChange={handleUsernameChange}
+                                    className="text-black w-full px-2 py-1 border rounded"
+                                />
+                            </label>
+
+                            <label className="block mb-2">
+                                Password
+                                <input
+                                    type="password"
+                                    value={password}
+                                    required
+                                    onChange={handlePasswordChange}
+                                    className="text-black w-full px-2 py-1 border rounded"
+                                />
+                            </label>
+                            <button
+                                type="submit"
+                                className="w-full mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                            >
+                                Submit
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        )};
 }
