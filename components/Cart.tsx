@@ -14,7 +14,7 @@ export default function CartComponent() {
             ) : (
                 <>
                     {cart.map((item) => (
-                        <div key={item.id} className="flex justify-between items-center mb-4 border-b pb-2">
+                        <div key={item.id} className="flex bg- justify-between items-center mb-4 border-b pb-2">
                             <div>
                                 <p className="font-semibold">{item.name}</p>
                                 <p>Price: ${item.price.toFixed(2)}</p>
@@ -48,7 +48,7 @@ export default function CartComponent() {
                         </p>
 
                         <Link href={"/Payment"}>
-                            <button type={"button"}>
+                            <button type={"button"} className="bg-pink-400 text-white font-bold py-2 px-4 rounded mt-4">
                                 Pay
                             </button>
                         </Link>

@@ -12,7 +12,7 @@ export default function Loader() {
     useEffect(() => {
         // Start the animations immediately
         setHrWidth(100);
-        setH1Height(100);
+        setH1Height(30);
         setH6Height(100);
 
         // Set a timer to fade out all elements after 2 seconds
@@ -30,7 +30,8 @@ export default function Loader() {
                     height: `${h1Height}%`,
                     opacity: elementsOpacity,
                     transition: 'height 1s ease-out, opacity 1s ease-out'
-                }}>
+                }}
+                className="tracking-widest">
                     THIS CAFETERIA IS NOT REAL
                 </h1>
                 <hr style={{
@@ -42,7 +43,8 @@ export default function Loader() {
                     height: `${h6Height}%`,
                     opacity: elementsOpacity,
                     transition: 'height 1s ease-out, opacity 1s ease-out'
-                }}>
+                }}
+                    className="tracking-widest">
                     AND THAT IS AWESOME
                 </h6>
             </div>

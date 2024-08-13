@@ -94,7 +94,7 @@ export default function Navbar() {
         <>
             <nav className="navbar navbar-container flex items-center justify-between flex-wrap">
                 <div className="navbar-brand-container w-1/4 flex items-center flex-shrink-0 text-black py-4">
-                    <a className="hover-effect navbar-brand text-black tracking-widest mx-6" href="/">
+                    <a className="hover-effect navbar-brand text-black tracking-widest mx-6 sm:text-2xl md:text-3xl lg:text-4xl" href="/">
                         THIS CAFETERIA IS NOT REAL
                     </a>
                 </div>
@@ -145,7 +145,7 @@ export default function Navbar() {
 
             {/* Menú desplegable vertical (HAY QUE DOCUMENTAR ESTA PARTE) */}
             {showDropdown && (
-                <div className="fixed top-0 right-0 h-full w-64 bg-black shadow-lg z-50 transition-transform duration-300 ease-in-out transform translate-x-0">
+                <div className="fixed top-0 right-0 h-full w-64 bg-black bg-opacity-90 shadow-lg z-50 transition-transform duration-300 ease-in-out transform translate-x-0">
                     <div className="p-4">
                         <button onClick={toggleDropdown} className="float-right text-2xl">&times;</button>
                         <div className="flex flex-col items-center mb-4">
