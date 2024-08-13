@@ -1,4 +1,5 @@
 "use client"
+import { useState, useEffect } from 'react';
 import './Products.css'
 import { useCart } from './CartContext';
 import Image from 'next/image';
@@ -22,9 +23,32 @@ const products: Product[] = [
 
 export default function ProductsComponent() {
     const { addToCart } = useCart();
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [confirmationMessage, setConfirmationMessage] = useState('');
+
+    useEffect(() => {
+        if (showConfirmation) {
+            const timer = setTimeout(() => {
+                setShowConfirmation(false);
+            }, 3000); // El mensaje desaparecerá después de 3 segundos
+
+            return () => clearTimeout(timer);
+        }
+    }, [showConfirmation]);
+
+    const handleAddToCart = (product: Product) => {
+        addToCart(product);
+        setConfirmationMessage(`${product.name} agregado al carrito`);
+        setShowConfirmation(true);
+    };
 
     return(
-        <div className="min-h-screen cute-bg flex justify-center items-center w-full p-4">
+        <div className="min-h-screen cute-bg flex justify-center items-center w-full p-4 relative">
+            {showConfirmation && (
+                <div className="fixed top-4 right-4 bg-green-500 text-white p-4 rounded shadow-lg">
+                    {confirmationMessage}
+                </div>
+            )}
             <div className="flex flex-wrap justify-center gap-4">
                 {products.map((product, index) => (
                     <div key={index} className="max-w-sm w-full sm:w-1/2 md:w-1/3 lg:w-1/4 rounded overflow-hidden shadow-lg bg-white">
@@ -38,9 +62,9 @@ export default function ProductsComponent() {
                             <button
                                 type="button"
                                 className="bg-pink-400 text-white font-bold py-2 px-4 rounded mt-4"
-                                onClick={() => addToCart(product)}
+                                onClick={() => handleAddToCart(product)}
                             >
-                                Fuck
+                                Add to cart
                             </button>
                         </div>
                     </div>
