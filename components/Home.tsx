@@ -34,7 +34,7 @@ export default function Home() {
             <div className="home-container min-h-screen flex justify-center">
                 <div className={`image-container  mx-7 ${isImageVisible ? 'fade-in' : 'fade-out'}`}>
                     <Image src={images[currentImageIndex]}
-                           className="px-5 pb-5"
+                           className="px-5 pb-5 "
                            alt="Coffe images changing"
                            layout="fill"
                            objectFit="cover"

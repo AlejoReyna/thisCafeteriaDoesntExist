@@ -59,7 +59,7 @@ export default function PaymentComponent() {
         <div className="flex min-h-screen navbar-container justify-center items-center">
             <div className="max-w-xl bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-5">
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    Set your card
+                    Payment page
                 </h5>
                 <input
                     type="text"
@@ -144,59 +144,7 @@ export default function PaymentComponent() {
                 </button>
             </div>
         </div>
+    )
 
-    {showPopup && (
-            <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
-                <div
-                    className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800">
 
-                    <div className="flex flex-col justify-between p-4 leading-normal">
-                        <button className="self-end text-xl" onClick={handleClosePopup}> x</button>
-                        <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                            Register to order some tasty coffee
-                        </h2>
-                        <form onSubmit={handleSubmit}>
-                            <label className="block mb-2">
-                                Email
-                                <input
-                                    type="email"
-                                    value={email}
-                                    required
-                                    onChange={handleEmailChange}
-                                    className="text-black w-full px-2 py-1 border rounded"
-                                />
-                            </label>
-
-                            <label className="block mb-2">
-                                Username
-                                <input
-                                    type="name"
-                                    value={username}
-                                    required
-                                    onChange={handleUsernameChange}
-                                    className="text-black w-full px-2 py-1 border rounded"
-                                />
-                            </label>
-
-                            <label className="block mb-2">
-                                Password
-                                <input
-                                    type="password"
-                                    value={password}
-                                    required
-                                    onChange={handlePasswordChange}
-                                    className="text-black w-full px-2 py-1 border rounded"
-                                />
-                            </label>
-                            <button
-                                type="submit"
-                                className="w-full mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                            >
-                                Submit
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        )};
 }

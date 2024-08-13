@@ -6,12 +6,43 @@ import PopupImage from '@/public/popup-img.jpg';
 import Image from "next/image";
 import { CiShoppingCart } from "react-icons/ci";
 
+
 export default function Navbar() {
 
+    // Username functions
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const getUsername = (): string => {
         return localStorage.getItem("username") || "LOG IN";
     }
+
+    // UserImage functions
+    const [profileImage, setProfileImage] = useState<string | null>(null);
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const base64String = reader.result as string;
+                setProfileImage(base64String);
+                localStorage.setItem('profileImage', base64String);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    useEffect(() => {
+        const savedImage = localStorage.getItem('profileImage');
+        if (savedImage) {
+            setProfileImage(savedImage);
+        }
+    }, []);
+
+
+    const [showDropdown, setShowDropdown] = useState(false);
+
+    const toggleDropdown = () => {
+        setShowDropdown(!showDropdown);
+    };
 
     const [showPopup, setShowPopup] = useState<boolean>(false);
     const [email, setEmail] = useState<string>("");
@@ -96,11 +127,10 @@ export default function Navbar() {
 
                 <div className="hidden lg:block w-1/4 text-right">
                     <span
-                        className="text-sm text-black mx-8 flex items-center justify-end"
-                        onClick={isLoggedIn ? undefined : handleOpenPopup}>
+                        className="text-sm text-black mx-8 flex items-center justify-end cursor-pointer"
+                        onClick={isLoggedIn ? toggleDropdown : handleOpenPopup}>
                         {isLoggedIn ? (
                             <>
-
                                 <Link href="/Cart">
                                     <CiShoppingCart className="ml-2 text-xl cursor-pointer"/>
                                 </Link>
@@ -113,9 +143,66 @@ export default function Navbar() {
                 </div>
             </nav>
 
+            {/* Menú desplegable vertical (HAY QUE DOCUMENTAR ESTA PARTE) */}
+            {showDropdown && (
+                <div className="fixed top-0 right-0 h-full w-64 bg-black shadow-lg z-50 transition-transform duration-300 ease-in-out transform translate-x-0">
+                    <div className="p-4">
+                        <button onClick={toggleDropdown} className="float-right text-2xl">&times;</button>
+                        <div className="flex flex-col items-center mb-4">
+                            <label htmlFor="profile-pic" className="cursor-pointer">
+                                <div
+                                    className="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
+                                    <img
+                                        src={profileImage || "/default-avatar.png"}
+                                        alt="Profile"
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                            </label>
+                            <input
+                                type="file"
+                                id="profile-pic"
+                                className="hidden"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                            />
+                        </div>
+                        <h2 className="text-xl font-bold mb-4">Menu</h2>
+                        <ul>
+                            <li className="mb-2">
+                                <span>
+                                    {getUsername()}
+                                </span>
+                            </li>
+                            <li className="mb-2">
+                                <Link href="" className="block p-2 hover:bg-gray-100">
+                                    Orders
+                                </Link>
+                            </li>
+                            <li className="mb-2">
+                                <button
+                                    onClick={() => {
+                                        // Lógica para cerrar sesión
+                                        localStorage.clear();
+                                        setIsLoggedIn(false);
+                                        setShowDropdown(false);
+                                        setProfileImage(null);
+
+                                    }}
+                                    className="block w-full text-left p-2 hover:bg-gray-100"
+                                >
+                                    Log Out
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            )}
+
             {showPopup && (
                 <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
-                    <div className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800">
+                    <div
+                        className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800">
                         <Image
                             className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
                             src={PopupImage}

@@ -37,7 +37,7 @@ export default function Loader() {
                     width: `${hrWidth}%`,
                     opacity: elementsOpacity,
                     transition: 'width 1s ease-out, opacity 1s ease-out'
-                }} />
+                }}/>
                 <h6 style={{
                     height: `${h6Height}%`,
                     opacity: elementsOpacity,
