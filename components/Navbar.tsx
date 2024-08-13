@@ -95,20 +95,16 @@ export default function Navbar() {
                 </div>
 
                 <div className="hidden lg:block w-1/4 text-right">
-                    {/**
-                    <button className="bg-black hover:bg-gray-700 text-white rounded-xl px-2 mx-8 py-1">
-                        <span className="text-sm"> SUPPORT </span>
-                    </button>
-                     **/}
                     <span
-                        className="text-sm text-black mx-8"
+                        className="text-sm text-black mx-8 flex items-center justify-end"
                         onClick={isLoggedIn ? undefined : handleOpenPopup}>
                         {isLoggedIn ? (
                             <>
-                            <span> {getUsername()}</span>
+
                                 <Link href="/Cart">
-                                    <CiShoppingCart className="ml-2 text-xl cursor-pointer" />
+                                    <CiShoppingCart className="ml-2 text-xl cursor-pointer"/>
                                 </Link>
+                                <span className="mr-2"> {getUsername()}</span>
                             </>
                         ) : (
                             <span onClick={handleOpenPopup}>LOG IN</span>
