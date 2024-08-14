@@ -2,7 +2,7 @@
 import {useState, useEffect, FormEvent} from "react";
 import "./Navbar.css";
 import Link from 'next/link';
-import PopupImage from '@/public/popup-img.jpg';
+import PopupImage from '@/public/coffee-bags.webp';
 import Image from "next/image";
 import { CiShoppingCart } from "react-icons/ci";
 
@@ -38,12 +38,13 @@ export default function Navbar() {
     }, []);
 
 
-    const [showDropdown, setShowDropdown] = useState(false);
+    const [showDropdown, setShowDropdown] = useState<Boolean>(false);
 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
     };
 
+    const [changeForm, setChangeForm] = useState(false);
     const [showPopup, setShowPopup] = useState<boolean>(false);
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -51,10 +52,12 @@ export default function Navbar() {
 
     const handleOpenPopup = (): void => {
         setShowPopup(true);
+        setChangeForm(false);
     }
 
     const handleClosePopup = (): void => {
         setShowPopup(false);
+        setChangeForm(false);
     }
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,6 +69,11 @@ export default function Navbar() {
     }
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
+    }
+
+    const handleChangeForm = (e: React.MouseEvent<HTMLButtonElement>) => {
+        setChangeForm(true);
+        setShowPopup(false);
     }
 
     const handleSubmit = (e: FormEvent) => {
@@ -202,18 +210,20 @@ export default function Navbar() {
             {showPopup && (
                 <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
                     <div
-                        className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800">
-                        <Image
-                            className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
-                            src={PopupImage}
-                            alt="Coffee"
-                        />
-                        <div className="flex flex-col justify-between p-4 leading-normal">
-                            <button className="self-end text-xl" onClick={handleClosePopup}> x </button>
-                            <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                                Register to order some tasty coffee
-                            </h2>
-                            <form onSubmit={handleSubmit}>
+                        className="flex border border-gray-200 rounded-lg shadow dark:border-gray-700 bg-black bg-opacity-75 w-full max-w-4xl h-3/4">
+                        <div className="w-2/3 h-full">
+                            <Image
+                                className="object-cover w-full h-full rounded-l-lg"
+                                src={PopupImage}
+                                alt="Coffee"
+                            />
+                        </div>
+                        <div className="w-1/3 flex flex-col justify-between p-4 leading-normal h-full">
+                            <button className="self-end text-xl" onClick={handleClosePopup}> x</button>
+                            <h1 className="navbar-brand mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                THE COFFEE YOU LOVE, AT A FORM OF DISTANCE.
+                            </h1>
+                            <form onSubmit={handleSubmit} className="flex-grow">
                                 <label className="block mb-2">
                                     Email
                                     <input
@@ -248,10 +258,64 @@ export default function Navbar() {
                                 </label>
                                 <button
                                     type="submit"
-                                    className="w-full mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                                    className="w-full mt-4 px-4 py-2 bg-amber-900 text-white rounded hover:bg-amber-800"
                                 >
                                     Submit
                                 </button>
+                                <button onClick={handleChangeForm}> Already have an account? </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {changeForm && (
+                <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+                    <div
+                        className="flex border border-gray-200 rounded-lg shadow dark:border-gray-700 bg-black bg-opacity-75 w-full max-w-4xl h-3/4">
+                        <div className="w-2/3 h-full">
+                            <Image
+                                className="object-cover w-full h-full rounded-l-lg"
+                                src={PopupImage}
+                                alt="Coffee"
+                            />
+                        </div>
+                        <div className="w-1/3 flex flex-col justify-between p-4 leading-normal h-full">
+                            <button className="self-end text-xl" onClick={handleClosePopup}> x</button>
+                            <h1 className="navbar-brand mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                THE COFFEE YOU LOVE, AT A FORM OF DISTANCE.
+                            </h1>
+                            <form onSubmit={handleSubmit} className="flex-grow">
+                                <label className="block mb-2">
+                                    Email
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        required
+                                        onChange={handleEmailChange}
+                                        className="text-black w-full px-2 py-1 border rounded"
+                                    />
+                                </label>
+
+
+
+                                <label className="block mb-2">
+                                    Password
+                                    <input
+                                        type="password"
+                                        value={password}
+                                        required
+                                        onChange={handlePasswordChange}
+                                        className="text-black w-full px-2 py-1 border rounded"
+                                    />
+                                </label>
+                                <button
+                                    type="submit"
+                                    className="w-full mt-4 px-4 py-2 bg-amber-900 text-white rounded hover:bg-amber-800"
+                                >
+                                    Submit
+                                </button>
+                                <button onClick={handleOpenPopup}> Don't have an account?</button>
                             </form>
                         </div>
                     </div>
